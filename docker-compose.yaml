@@ -1,0 +1,115 @@
+version: "3.7"
+services:
+  server:
+    build: .
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_server'
+    runtime: nvidia
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+    command: "uvicorn server:app --host 0.0.0.0 --port 8000 --reload --debug --workers 3"
+
+  client1:
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_client_1'
+    runtime: nvidia
+    restart: on-failure
+    depends_on:
+      - server
+    links:
+      - server
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+      - N_Client=0
+    command: "python client.py"
+
+  client2:
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_client_2'
+    runtime: nvidia
+    restart: on-failure
+    depends_on:
+      - server
+    links:
+      - server
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+      - N_Client=1
+    command: "python client.py"
+
+  client3:
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_client_3'
+    runtime: nvidia
+    restart: on-failure
+    depends_on:
+      - server
+    links:
+      - server
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+      - N_Client=2
+    command: "python client.py"
+
+  client4:
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_client_4'
+    runtime: nvidia
+    restart: on-failure
+    depends_on:
+      - server
+    links:
+      - server
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+      - N_Client=3
+    command: "python client.py"
+
+  client5:
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_client_5'
+    runtime: nvidia
+    restart: on-failure
+    depends_on:
+      - server
+    links:
+      - server
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+      - N_Client=4
+    command: "python client.py"
+
+  client6:
+    image: tf-gpu-fl
+    container_name: 'tf_gpu_client_6'
+    runtime: nvidia
+    restart: on-failure
+    depends_on:
+      - server
+    links:
+      - server
+    volumes:
+      - ./Scripts:/tf/Scripts
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - TF_CPP_MIN_LOG_LEVEL=3
+      - N_Client=5
+    command: "python client.py"
